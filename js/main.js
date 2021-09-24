@@ -8,4 +8,4 @@ function getRandomNumber (min, max) {
   }
 
 }
-getRandomNumber(0, 5);
+getRandomNumber(0, 5); //ссылка на функцию https://efim360.ru/javascript-sluchajnoe-czeloe-chislo-iz-diapazona/
