@@ -8,5 +8,5 @@ function getRandomNumber (min, max) {
 
 const chekComment = (comment, maxLength) => comment.length <= maxLength;
 
-getRandomNumber(0, 5); //ссылка на функцию https://efim360.ru/javascript-sluchajnoe-czeloe-chislo-iz-diapazona/
+getRandomNumber(0, 5);
 chekComment('volvo', 5);
