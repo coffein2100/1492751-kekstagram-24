@@ -8,4 +8,12 @@ function getRandomNumber (min, max) {
   }
 
 }
+
+function chekComment(comUser, maxLength) {
+  const lengthString = comUser.length;
+  if(lengthString <= maxLength){return true;}
+  return false;
+}
+
 getRandomNumber(0, 5); //ссылка на функцию https://efim360.ru/javascript-sluchajnoe-czeloe-chislo-iz-diapazona/
+chekComment('first comment', 14);
