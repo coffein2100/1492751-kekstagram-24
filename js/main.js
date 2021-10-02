@@ -49,7 +49,7 @@ const SIMILAR_COMMENTS_COUNT = 3;
 const createComments = () => {
   const randomNameIndex = _.random(0, NAMES.length - 1);
   const randomCommentIndex = _.random(0, COMMENTS.length - 1);
-  const SomeAvatar = `img/avatar-${  getRandomNumber(1, 6)  }.svg`;
+  const SomeAvatar = `img/avatar-${  getRandomNumber(1, 7)  }.svg`;
   const uniqueIdComennts = getUniqueRandomNumber (500, 1);
   return {
     id: uniqueIdComennts,
@@ -62,7 +62,7 @@ const similarComments = Array.from({length:SIMILAR_COMMENTS_COUNT}, createCommen
 
 const createImege = () => {
   const randomDeskriptionIndex = _.random(0, DESKRIPTIONS.length - 1);
-  const someLikes = getRandomNumber(15, 200);
+  const someLikes = getRandomNumber(15, 201);
   const unique = getUniqueRandomNumber (25, 1);
   return {
     id:unique,
