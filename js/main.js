@@ -33,24 +33,35 @@ const DESKRIPTIONS = [
   'за секунду до',
 ];
 const SIMILAR_IMAGES_COUNT = 25;
-const SIMILAR_COMMENTS_COUNT = 3;
+const SIMILAR_COMMENTS_COUNT = 2;
 
-const createComments = (position) => {
-  const randomNameIndex = _.random(0, NAMES.length - 1);
-  const randomCommentIndex = _.random(0, COMMENTS.length - 1);
-  const SomeAvatar = `img/avatar-${  getRandomNumber(1, 7)  }.svg`;
-  return {
-    id: position+1,
-    avatar: SomeAvatar,
-    message: COMMENTS[randomCommentIndex],
-    name: NAMES[randomNameIndex],
-  };
-};
-const similarComments = Array.from({length:SIMILAR_COMMENTS_COUNT},(_id,position) => createComments(position));
+const usedIndexes = new Set();
+function getUniqueRandomNumber (max, min) {
+  const newNumber = Math.floor (Math.random() * (max - min) + min);
+  if (usedIndexes.has(newNumber)) {
+    return this.getUniqueRandomNumber(max, min);
+  } else {
+    usedIndexes.add(newNumber);
+    return newNumber;
+  }
+}
 
 const createImege = (position) => {
   const randomDeskriptionIndex = _.random(0, DESKRIPTIONS.length - 1);
   const someLikes = getRandomNumber(15, 201);
+
+  const createComments = () => {
+    const randomNameIndex = _.random(0, NAMES.length - 1);
+    const randomCommentIndex = _.random(0, COMMENTS.length - 1);
+    const someAvatar = `img/avatar-${  getRandomNumber(1, 7)  }.svg`;
+    return {
+      id: getUniqueRandomNumber(1000,1),
+      avatar: someAvatar,
+      message: COMMENTS[randomCommentIndex],
+      name: NAMES[randomNameIndex],
+    };
+  };
+  const similarComments = Array.from({length: SIMILAR_COMMENTS_COUNT}, createComments);
 
   return {
     id: position+1,
@@ -63,3 +74,4 @@ const createImege = (position) => {
 
 // eslint-disable-next-line no-unused-vars
 const similarImages = Array.from({length: SIMILAR_IMAGES_COUNT},(_id,position) => createImege(position));
+
