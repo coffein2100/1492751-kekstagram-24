@@ -6,11 +6,11 @@ const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const imageElements = similarImages;
-function createImage() {
+
+function showImages (images) {
   const similarImageFragment = document.createDocumentFragment();
 
-  imageElements.forEach((image) => {
+  images.forEach((image) => {
     const imageElement = similarImageTemplate.cloneNode(true);
     imageElement.querySelector('.picture__comments').textContent = image.comments.length;
     imageElement.querySelector('.picture__likes').textContent = image.likes;
@@ -19,5 +19,4 @@ function createImage() {
   });
   randomPicture.appendChild(similarImageFragment);
 }
-
-createImage(similarImages);
+showImages(similarImages);
