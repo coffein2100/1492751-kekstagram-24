@@ -1,3 +1,4 @@
+import {similarImages} from './data.js';
 export const bigPicture = document.querySelector('.big-picture');
 const hidenComents = document.querySelector('.social__comment-count');
 const hidenComentsbutton = document.querySelector('.comments-loader');
@@ -14,3 +15,9 @@ closeButton.addEventListener('click',  (evt) => {
   modalView.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
 });
+
+function showBigImages (images) {
+  images.map;
+  console.log(images);
+}
+showBigImages(similarImages);
