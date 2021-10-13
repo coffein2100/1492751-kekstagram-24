@@ -26,3 +26,4 @@ function showImages (images) {
   randomPicture.appendChild(similarImageFragment);
 }
 showImages(similarImages);
+
