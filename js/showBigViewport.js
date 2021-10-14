@@ -4,6 +4,8 @@ const hidenComents = document.querySelector('.social__comment-count');
 const hidenComentsbutton = document.querySelector('.comments-loader');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
+
+
 bigPicture.classList.remove('hidden');
 hidenComents.classList.add('hidden');
 hidenComentsbutton.classList.add('hidden');
@@ -16,8 +18,17 @@ closeButton.addEventListener('click',  (evt) => {
   bigPicture.classList.add('hidden');
 });
 
-function showBigImages (images) {
-  images.map;
-  console.log(images);
+function renderBigPicture (images) {
+  bigPicture.querySelector('.social__caption').textContent = images.description;
+  bigPicture.querySelector('.comments-count').textContent = images.comments.length;
+  bigPicture.querySelector('.likes-count').textContent = images.likes;
+  bigPicture.querySelector('img').src = images.url;
+
+
+  images.comments.forEach((comment) => {
+    bigPicture.querySelector('.social__comments').innerHTML = '';
+
+  });
 }
-showBigImages(similarImages);
+
+renderBigPicture(similarImages[0]);
