@@ -19,16 +19,36 @@ closeButton.addEventListener('click',  (evt) => {
 });
 
 function renderBigPicture (images) {
+  const bigPicturecomment= document.querySelector('.social__comments');
+  bigPicturecomment.innerHTML = '';
   bigPicture.querySelector('.social__caption').textContent = images.description;
   bigPicture.querySelector('.comments-count').textContent = images.comments.length;
   bigPicture.querySelector('.likes-count').textContent = images.likes;
   bigPicture.querySelector('img').src = images.url;
 
-
   images.comments.forEach((comment) => {
-    bigPicture.querySelector('.social__comments').innerHTML = '';
-
+    const commentElement = document.createElement('li');
+    const commentImg = document.createElement('img');
+    const commentText = document.createElement('p');
+    commentElement.classList.add('social__comment');
+    commentText.classList.add('social__text');
+    commentImg.src = comment.avatar;
+    commentImg.alt = comment.name;
+    commentImg.width = 35;
+    commentImg.height = 35;
+    commentText.textContent = comment.message;
+    bigPicturecomment.appendChild(commentElement);
+    commentElement.appendChild(commentImg);
+    commentElement.appendChild(commentText);
   });
 }
 
 renderBigPicture(similarImages[0]);
+
+window.addEventListener('keydown', (evt) => {
+  if (evt.keyCode === 27) {
+    evt.preventDefault();
+    modalView.classList.remove('modal-open');
+    bigPicture.classList.add('hidden');
+  }
+});
