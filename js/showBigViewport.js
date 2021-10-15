@@ -18,30 +18,34 @@ closeButton.addEventListener('click',  (evt) => {
   bigPicture.classList.add('hidden');
 });
 
-function renderBigPicture (images) {
+const renderBigPicture = (bigImage) => {
   const bigPicturecomment= document.querySelector('.social__comments');
   bigPicturecomment.innerHTML = '';
-  bigPicture.querySelector('.social__caption').textContent = images.description;
-  bigPicture.querySelector('.comments-count').textContent = images.comments.length;
-  bigPicture.querySelector('.likes-count').textContent = images.likes;
-  bigPicture.querySelector('img').src = images.url;
+  bigPicture.querySelector('.social__caption').textContent = bigImage.description;
+  bigPicture.querySelector('.comments-count').textContent = bigImage.comments.length;
+  bigPicture.querySelector('.likes-count').textContent = bigImage.likes;
+  bigPicture.querySelector('img').src = bigImage.url;
+  const bigImageFragment = document.createDocumentFragment();
 
-  images.comments.forEach((comment) => {
-    const commentElement = document.createElement('li');
-    const commentImg = document.createElement('img');
-    const commentText = document.createElement('p');
-    commentElement.classList.add('social__comment');
-    commentText.classList.add('social__text');
-    commentImg.src = comment.avatar;
-    commentImg.alt = comment.name;
-    commentImg.width = 35;
-    commentImg.height = 35;
-    commentText.textContent = comment.message;
-    bigPicturecomment.appendChild(commentElement);
-    commentElement.appendChild(commentImg);
-    commentElement.appendChild(commentText);
+  bigImage.comments.forEach((comment) => {
+
+    const element = document.createElement('li');
+    const image = document.createElement('img');
+    const text = document.createElement('p');
+    image.classList.add('social__picture');
+    element.classList.add('social__comment');
+    text.classList.add('social__text');
+    image.src = comment.avatar;
+    image.alt = comment.name;
+    image.width = 35;
+    image.height = 35;
+    text.textContent = comment.message;
+    element.appendChild(image);
+    element.appendChild(text);
+    bigImageFragment.appendChild(element);
   });
-}
+  bigPicturecomment.appendChild(bigImageFragment);
+};
 
 renderBigPicture(similarImages[0]);
 
