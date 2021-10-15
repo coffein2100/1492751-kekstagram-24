@@ -23,7 +23,7 @@ const DESKRIPTIONS = [
   'за секунду до',
 ];
 const SIMILAR_IMAGES_COUNT = 25;
-const SIMILAR_COMMENTS_COUNT = 2;
+const SIMILAR_COMMENTS_COUNT = 5;
 
 const createImege = (position) => {
   const randomDeskriptionIndex = _.random(0, DESKRIPTIONS.length - 1);

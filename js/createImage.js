@@ -1,7 +1,7 @@
 
 import {similarImages} from './data.js';
+import './showBigViewport.js';
 const randomPicture = document.querySelector('.pictures');
-
 const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
@@ -20,3 +20,4 @@ function showImages (images) {
   randomPicture.appendChild(similarImageFragment);
 }
 showImages(similarImages);
+
