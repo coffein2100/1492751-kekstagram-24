@@ -3,7 +3,7 @@ const imgLoad = document.querySelector('.img-upload__overlay');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.img-upload__cancel');
 const scaleImage = document.querySelector('.img-upload__scale');
-const filter = document.querySelector('.effects__list');
+const filter = document.querySelector('.img-upload__effects');
 
 formImage.addEventListener('change',() =>{
   imgLoad.classList.remove('hidden');
@@ -56,4 +56,9 @@ scaleImage.querySelector('.scale__control--bigger').addEventListener('click',() 
       formImage.querySelector('img').style.transform = 'scale(0.25)';}
   }
 
+});
+filter.addEventListener('change',() =>{
+  if (filter.querySelector('input').value === 'chrome'){
+    formImage.querySelector('img').classList.add('effects__preview--chrome');
+  }
 });
