@@ -15,11 +15,16 @@ closeButton.addEventListener('click',  (evt) => {
   modalView.classList.remove('modal-open');
   imgLoad.classList.add('hidden');
 });
-window.addEventListener('keydown', (evt) => {
+formImage.addEventListener('keydown', (evt) => {
   if (evt.keyCode === 27) {
     evt.preventDefault();
-    modalView.classList.remove('modal-open');
-    imgLoad.classList.add('hidden');
+    if (document.activeElement === formImage.querySelector('.text__hashtags') ||
+    document.activeElement === formImage.querySelector('.text__description')){
+      evt.stopPropagation();
+    } else {
+      modalView.classList.remove('modal-open');
+      imgLoad.classList.add('hidden');
+    }
   }
 });
 
@@ -61,4 +66,42 @@ filter.addEventListener('change',() =>{
   if (filter.querySelector('input').value === 'chrome'){
     formImage.querySelector('img').classList.add('effects__preview--chrome');
   }
+});
+const onFilterChange = (evt) =>{
+  if (evt.target.matches('input[type="radio"]')) {
+    const filterName = evt.target.value;
+    if (formImage.querySelector('img').classList.contains('effects__preview--chrome')) {formImage.querySelector('img').classList.remove('effects__preview--chrome');}
+    if  (formImage.querySelector('img').classList.contains('effects__preview--sepia')) {formImage.querySelector('img').classList.remove('effects__preview--sepia');}
+    if  (formImage.querySelector('img').classList.contains('effects__preview--marvin')) {formImage.querySelector('img').classList.remove('effects__preview--marvin');}
+    if  (formImage.querySelector('img').classList.contains('effects__preview--phobos')) {formImage.querySelector('img').classList.remove('effects__preview--phobos');}
+    if  (formImage.querySelector('img').classList.contains('effects__preview--heat'))  {formImage.querySelector('img').classList.remove('effects__preview--heat');}
+
+    if (filterName === 'chrome'){
+      formImage.querySelector('img').classList.add('effects__preview--chrome');
+    }
+    if (filterName === 'sepia'){
+      formImage.querySelector('img').classList.add('effects__preview--sepia');
+    }
+    if (filterName === 'marvin'){
+      formImage.querySelector('img').classList.add('effects__preview--marvin');
+    }
+    if (filterName === 'phobos'){
+      formImage.querySelector('img').classList.add('effects__preview--phobos');
+    }
+    if (filterName === 'heat'){
+      formImage.querySelector('img').classList.add('effects__preview--heat');
+    }
+    if (filterName === 'none'){
+      formImage.querySelector('img').classList.remove();
+    }
+
+  }
+};
+formImage.addEventListener('change', onFilterChange);
+
+formImage.addEventListener('submit', (e) => {
+  // Отключаем событие по умолчанию
+  e.prevent.Default();
+  // Очищаем поля формы
+  e.target.reset();
 });
