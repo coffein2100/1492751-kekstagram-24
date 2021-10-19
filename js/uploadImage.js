@@ -10,23 +10,29 @@ formImage.addEventListener('change',() =>{
   modalView.classList.add('modal-open');
 });
 
-closeButton.addEventListener('click',  (evt) => {
+const onClickcloseButton = closeButton.addEventListener('click',  (evt) => {
   evt.preventDefault();
   modalView.classList.remove('modal-open');
   imgLoad.classList.add('hidden');
+  closeButton.removeEventListener('click', onClickcloseButton);
 });
-formImage.addEventListener('keydown', (evt) => {
+
+closeButton.addEventListener('click', onClickcloseButton);
+
+
+const keyDownFormImage = formImage.addEventListener('keydown', (evt) => {
   if (evt.keyCode === 27) {
     evt.preventDefault();
     if (document.activeElement === formImage.querySelector('.text__hashtags') ||
     document.activeElement === formImage.querySelector('.text__description')){
-      evt.stopPropagation();
-    } else {
+      return; } else {
       modalView.classList.remove('modal-open');
       imgLoad.classList.add('hidden');
+      formImage.removeEventListener('click', keyDownFormImage);
     }
   }
 });
+closeButton.addEventListener('keydown', keyDownFormImage);
 
 scaleImage.querySelector('.scale__control--smaller').addEventListener('click',() =>{
   let scaleSize = scaleImage.querySelector('.scale__control--value').value;
