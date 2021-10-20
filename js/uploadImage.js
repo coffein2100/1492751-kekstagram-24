@@ -1,9 +1,11 @@
+/* eslint-disable no-template-curly-in-string */
 const formImage = document.querySelector('.img-upload__form');
 const imgLoad = document.querySelector('.img-upload__overlay');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.img-upload__cancel');
 const scaleImage = document.querySelector('.img-upload__scale');
 const filter = document.querySelector('.img-upload__effects');
+const sizeImg = formImage.querySelector('img');
 
 formImage.addEventListener('change',() =>{
   imgLoad.classList.remove('hidden');
@@ -36,20 +38,26 @@ closeButton.addEventListener('keydown', keyDownFormImage);
 
 scaleImage.querySelector('.scale__control--smaller').addEventListener('click',() =>{
   let scaleSize = scaleImage.querySelector('.scale__control--value').value;
+
   scaleSize = parseFloat(scaleSize);
   if (scaleSize > 25) {
     scaleSize=`${scaleSize - 25}%`;
     scaleImage.querySelector('.scale__control--value').value = scaleSize;
-    if (scaleSize === '100%' ) {
-      formImage.querySelector('img').style.transform = 'scale(1)';}
+    /*if (scaleSize === '100%' ) {
+      sizeImg.style.transform = 'scale(1)';}
     if (scaleSize === '75%' ) {
-      formImage.querySelector('img').style.transform = 'scale(0.75)';}
+      sizeImg.style.transform = 'scale(0.75)';}
     if (scaleSize === '50%' ) {
-      formImage.querySelector('img').style.transform = 'scale(0.5)';}
+      sizeImg.style.transform = 'scale(0.5)';}
     if (scaleSize === '25%' ) {
-      formImage.querySelector('img').style.transform = 'scale(0.25)';}
+      sizeImg.style.transform = 'scale(0.25)';}
+  }*/
+    scaleSize = parseFloat(scaleSize) *0.01;
+    console.log(scaleSize);
+    if (scaleSize >=1 ) {
+      sizeImg.style.transform = `scale(${scaleSize})`;
+    }
   }
-
 });
 scaleImage.querySelector('.scale__control--bigger').addEventListener('click',() =>{
   let scaleSize = scaleImage.querySelector('.scale__control--value').value;
@@ -58,21 +66,17 @@ scaleImage.querySelector('.scale__control--bigger').addEventListener('click',() 
     scaleSize=`${scaleSize + 25}%`;
     scaleImage.querySelector('.scale__control--value').value = scaleSize;
     if (scaleSize === '100%' ) {
-      formImage.querySelector('img').style.transform = 'scale(1)';}
+      sizeImg.style.transform = 'scale(1)';}
     if (scaleSize === '75%' ) {
-      formImage.querySelector('img').style.transform = 'scale(0.75)';}
+      sizeImg.style.transform = 'scale(0.75)';}
     if (scaleSize === '50%' ) {
-      formImage.querySelector('img').style.transform = 'scale(0.5)';}
+      sizeImg.style.transform = 'scale(0.5)';}
     if (scaleSize === '25%' ) {
-      formImage.querySelector('img').style.transform = 'scale(0.25)';}
+      sizeImg.style.transform = 'scale(0.25)';}
   }
 
 });
-filter.addEventListener('change',() =>{
-  if (filter.querySelector('input').value === 'chrome'){
-    formImage.querySelector('img').classList.add('effects__preview--chrome');
-  }
-});
+
 const onFilterChange = (evt) =>{
   if (evt.target.matches('input[type="radio"]')) {
     const filterName = evt.target.value;
