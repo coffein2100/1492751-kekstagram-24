@@ -11,17 +11,33 @@ const MIN_COMMENT_LENGTH = 0;
 const MAX_COMMENT_LENGTH = 140;
 
 const chekHashtags = () => {
-  let  hashtagsLength = hashtags.value;
-  console.log(hashtagsLength);
-  hashtags.setCustomValidity(`хэш-тег начинается с символа # (решётка);
+  let  arrayHashtag = hashtags.value.toLowerCase();
+  arrayHashtag=arrayHashtag.split(' ');
+  if (arrayHashtag.length >5){
+    hashtags.setCustomValidity('нельзя указать больше пяти хэш-тегов');
+  }
+
+  else {
+    hashtags.setCustomValidity('');
+  }
+  /*hashtags.setCustomValidity(`
+  +хэш-тег начинается с символа # (решётка);
   строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
-  хеш-тег не может состоять только из одной решётки;
-  максимальная длина одного хэш-тега 20 символов, включая решётку;
+  +хеш-тег не может состоять только из одной решётки;
+  +максимальная длина одного хэш-тега 20 символов, включая решётку;
   хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
   хэш-теги разделяются пробелами;
   один и тот же хэш-тег не может быть использован дважды;
-  нельзя указать больше пяти хэш-тегов;`);
+  +нельзя указать больше пяти хэш-тегов;`);*/
+  for (let i=0;i<arrayHashtag.length;i++){
+    arrayHashtag[i].split('');
+    if (!arrayHashtag[i].startsWith('#')){hashtags.setCustomValidity('хэш-тег начинается с символа # (решётка)');}
+    else if(arrayHashtag[i] === arrayHashtag){hashtags.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');}
+    else if (arrayHashtag[i].length>20 ){hashtags.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');}
+    else if (arrayHashtag[i].length < 2 ) {hashtags.setCustomValidity('хеш-тег не может состоять только из одной решётки');}
+  }
   hashtags.reportValidity();
+
 };
 
 
@@ -97,6 +113,7 @@ const onCloseClick = () => {
   formImage.removeEventListener('change', onFilterChange);
   formImage.removeEventListener('submit', sendForm);
   comment.removeEventListener('input', chekComment);
+  hashtags.removeEventListener('input', chekHashtags);
   clearForm();
 };
 
