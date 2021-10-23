@@ -9,7 +9,7 @@ const comment = document.querySelector('.text__description');
 const hashtags = document.querySelector('.text__hashtags');
 const MIN_COMMENT_LENGTH = 0;
 const MAX_COMMENT_LENGTH = 140;
-
+let scaleSize = scaleImage.querySelector('.scale__control--value').value;
 const chekHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
@@ -26,6 +26,7 @@ const chekHashtags = () => {
   });
 
   for (let i=0;i<arrayHashtag.length;i++){
+    // eslint-disable-next-line no-useless-escape
     const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     arrayHashtag[i].split('');
     if (!arrayHashtag[i].startsWith('#')){hashtags.setCustomValidity('хэш-тег начинается с символа # (решётка)');}
@@ -48,25 +49,19 @@ const chekComment = () => {
   }
   comment.reportValidity();
 };
-
-
-const reduceSize = () =>{
-  let scaleSize = scaleImage.querySelector('.scale__control--value').value;
+const updateSize = (size) =>{
   scaleSize = parseFloat(scaleSize);
-  if (scaleSize > 25) {
-    scaleSize -=25;
-    scaleImage.querySelector('.scale__control--value').value = `${scaleSize}%`;
-    sizeImg.style.transform = `scale(${scaleSize/100})`;
-  }
+  scaleSize +=size;
+  scaleImage.querySelector('.scale__control--value').value = `${scaleSize}%`;
+  sizeImg.style.transform = `scale(${scaleSize/100})`;
+};
+const reduceSize = () =>{
+  if (scaleSize !==25)
+  {updateSize(-25);}
 };
 const increaseSize = () =>{
-  let scaleSize = scaleImage.querySelector('.scale__control--value').value;
-  scaleSize = parseFloat(scaleSize);
-  if (scaleSize < 100) {
-    scaleSize +=25;
-    scaleImage.querySelector('.scale__control--value').value = `${scaleSize}%`;
-    sizeImg.style.transform = `scale(${scaleSize/100})`;
-  }
+  if (scaleSize <100)
+  {updateSize(25);}
 };
 const onFilterChange = (evt) =>{
   if (evt.target.matches('input[type="radio"]')) {
