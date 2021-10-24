@@ -85,9 +85,6 @@ const clearForm = () => {
 const closeForm = () => {
   imgLoad.classList.add('hidden');
   modalView.classList.remove('modal-open');
-  formImage.addEventListener('keyup', keyDownFormImage);
-  closeButton.removeEventListener('click', onCloseClick);
-  formImage.removeEventListener('keydown', keyDownFormImage);
   littleButton.removeEventListener('click', reduceSize);
   bigButton.removeEventListener('click', increaseSize);
   comment.removeEventListener('input', cheсkComment);
@@ -96,12 +93,14 @@ const closeForm = () => {
 const onCloseClick = () => {
   closeForm();
   clearForm();
+  closeButton.removeEventListener('click', onCloseClick);
 };
 const keyDownFormImage = (event) => {
   if (event.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
     event.preventDefault();
     closeForm();
     clearForm();
+    formImage.addEventListener('keyup', keyDownFormImage);
   }
 };
 const openUploadForm = () => {

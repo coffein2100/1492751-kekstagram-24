@@ -5,15 +5,14 @@ const description =  bigPicture.querySelector('.social__caption');
 const comments = bigPicture.querySelector('.comments-count');
 const likes = bigPicture.querySelector('.likes-count');
 const largeImage = bigPicture.querySelector('img');
-let socialComents = document.querySelector('.social__comment-count');
+const socialComents = document.querySelector('.social__comment-count');
+let quantity=5;
 const comentsbutton = document.querySelector('.comments-loader');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
 const bigPicturecomment= document.querySelector('.social__comments');
 bigPicture.classList.remove('hidden');
 modalView.classList.add('modal-open');
-//hidenComents.classList.add('hidden');
-//hidenComentsbutton.classList.add('hidden');
 
 closeButton.addEventListener('click',  (evt) => {
   evt.preventDefault();
@@ -22,17 +21,12 @@ closeButton.addEventListener('click',  (evt) => {
 });
 
 const renderBigPicture = (bigImage) => {
-
-  socialComents=socialComents.textContent;
-  socialComents=socialComents.charAt(0);
-  socialComents=parseFloat(socialComents);
   bigPicturecomment.innerHTML = '';
   description.textContent = bigImage.description;
   comments.textContent = bigImage.comments.length;
   likes.textContent = bigImage.likes;
   largeImage.src = bigImage.url;
-  console.log(socialComents);
-  const arrayComments = bigImage.comments.slice(0, socialComents);
+  const arrayComments = bigImage.comments.slice(0, quantity);
   const bigImageFragment = document.createDocumentFragment();
 
 
@@ -66,9 +60,12 @@ window.addEventListener('keydown', (evt) => {
   }
 });
 const showMoreComments = () => {
-  socialComents+=5;
-  if (socialComents> comments.textContent){socialComents=comments.textContent}
-  socialComents=`${socialComents} из ${ comments.textContent} комментариев`;
-  console.log(socialComents);
+  quantity+=5;
+  if (quantity> comments.textContent){
+    quantity=comments.textContent;
+    comentsbutton.classList.add('hidden');
+  }
+  socialComents.textContent = `${quantity} из ${ comments.textContent} комментариев`;
+  renderBigPicture(similarImages[0]);
 };
 comentsbutton.addEventListener('click', showMoreComments);
