@@ -12,13 +12,11 @@ const hashtags = document.querySelector('.text__hashtags');
 const littleButton = scaleImage.querySelector('.scale__control--smaller');
 const bigButton =  scaleImage.querySelector('.scale__control--bigger');
 let scaleSize = scaleImage.querySelector('.scale__control--value').value;
-
 const cheсkHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
   arrayHashtag=arrayHashtag.split(' ');
   const newArrayHashtag = arrayHashtag.filter((element) => element !== '');
-  //console.log(newArrayHashtag);
   if (newArrayHashtag.length >5){
     hashtags.setCustomValidity('нельзя указать больше пяти хэш-тегов');
   }
@@ -29,11 +27,9 @@ const cheсkHashtags = () => {
     if (usedHashtag.has(value)){hashtags.setCustomValidity('хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом. Oдин и тот же хэш-тег не может быть использован дважды');}
     else {usedHashtag.add(value);}
   });
-
   for (let i=0;i<newArrayHashtag.length;i++){
     const format = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
     newArrayHashtag[i].split('');
-
     if (!newArrayHashtag[i].startsWith('#')){
       hashtags.setCustomValidity('хэш-тег начинается с символа # (решётка)');
     }
@@ -47,13 +43,9 @@ const cheсkHashtags = () => {
     if (format.test(newArrayHashtag[i])) {
       hashtags.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
     }
-
   }
   hashtags.reportValidity();
-
-
 };
-
 const cheсkComment = () => {
   const commentLength = comment.value.length;
   if (commentLength <MIN_COMMENT_LENGTH) {
@@ -90,30 +82,25 @@ const clearForm = () => {
   sizeImg.style.transform = 'scale(1)';
   sizeImg.className = 'effects__preview--none';
 };
-
-const onCloseClick = () => {
-  modalView.classList.remove('modal-open');
+const closeForm = () => {
   imgLoad.classList.add('hidden');
+  modalView.classList.remove('modal-open');
+  formImage.addEventListener('keyup', keyDownFormImage);
   closeButton.removeEventListener('click', onCloseClick);
+  formImage.removeEventListener('keydown', keyDownFormImage);
   littleButton.removeEventListener('click', reduceSize);
   bigButton.removeEventListener('click', increaseSize);
-  formImage.removeEventListener('change', onFilterChange);
   comment.removeEventListener('input', cheсkComment);
   hashtags.removeEventListener('input', cheсkHashtags);
+};
+const onCloseClick = () => {
+  closeForm();
   clearForm();
 };
 const keyDownFormImage = (event) => {
   if (event.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
     event.preventDefault();
-    imgLoad.classList.add('hidden');
-    modalView.classList.remove('modal-open');
-    formImage.addEventListener('keyup', keyDownFormImage);
-    closeButton.removeEventListener('click', onCloseClick);
-    formImage.removeEventListener('keydown', keyDownFormImage);
-    littleButton.removeEventListener('click', reduceSize);
-    bigButton.removeEventListener('click', increaseSize);
-    comment.removeEventListener('input', cheсkComment);
-    hashtags.removeEventListener('input', cheсkHashtags);
+    closeForm();
     clearForm();
   }
 };
@@ -131,5 +118,4 @@ const formChange = () => {
   modalView.classList.add('modal-open');
   openUploadForm();
 };
-
 formImage.addEventListener('change', formChange);

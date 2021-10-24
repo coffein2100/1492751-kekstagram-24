@@ -23,7 +23,7 @@ const DESKRIPTIONS = [
   'за секунду до',
 ];
 const SIMILAR_IMAGES_COUNT = 25;
-const SIMILAR_COMMENTS_COUNT = 5;
+const SIMILAR_COMMENTS_COUNT = 6;
 
 const createImege = (position) => {
   const randomDeskriptionIndex = _.random(0, DESKRIPTIONS.length - 1);
@@ -32,7 +32,7 @@ const createImege = (position) => {
   function getUniqueRandomNumber (max, min) {
     const newNumber = Math.floor (Math.random() * (max - min) + min);
     if (usedIndexes.has(newNumber)) {
-      return this.getUniqueRandomNumber(max, min);
+      return getUniqueRandomNumber(max, min);
     } else {
       usedIndexes.add(newNumber);
       return newNumber;
