@@ -100,7 +100,7 @@ const keyDownFormImage = (event) => {
     event.preventDefault();
     closeForm();
     clearForm();
-    formImage.addEventListener('keyup', keyDownFormImage);
+    formImage.removeEventListener('keyup', keyDownFormImage);
   }
 };
 const openUploadForm = () => {
