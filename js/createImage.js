@@ -29,4 +29,3 @@ smallPictures.forEach((picture, i)=> {
     renderBigPicture(similarImages[pictureIndex]);
   });
 });
-
