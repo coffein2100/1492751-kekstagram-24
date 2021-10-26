@@ -1,12 +1,11 @@
 
 import {similarImages} from './data.js';
-import {showBigPicture, renderBigPicture, showMoreComments} from'./showBigViewport.js';
+import {showBigPicture, renderBigPicture} from './showBigViewport.js';
 
 const randomPicture = document.querySelector('.pictures');
 const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-
 
 function showImages (images) {
   const similarImageFragment = document.createDocumentFragment();
@@ -21,13 +20,11 @@ function showImages (images) {
   randomPicture.appendChild(similarImageFragment);
 }
 showImages(similarImages);
-
-const smallPictures = document.querySelectorAll('.picture__img');
+const smallPictures = document.querySelectorAll('.picture');
 
 smallPictures.forEach((picture, i)=> {
   picture.addEventListener('click', () => {
     const pictureIndex = i;
-    console.log(pictureIndex);
     showBigPicture();
     renderBigPicture(similarImages[pictureIndex]);
   });

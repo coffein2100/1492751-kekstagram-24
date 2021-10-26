@@ -1,5 +1,4 @@
 import {similarImages} from './data.js';
-
 const ESCAPE_BUTTON = 'Escape';
 export const bigPicture = document.querySelector('.big-picture');
 const description =  bigPicture.querySelector('.social__caption');
@@ -13,8 +12,6 @@ const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
 const bigPicturecomment= document.querySelector('.social__comments');
 
-
-
 export const renderBigPicture = (bigImage) => {
   bigPicturecomment.innerHTML = '';
   description.textContent = bigImage.description;
@@ -23,8 +20,6 @@ export const renderBigPicture = (bigImage) => {
   largeImage.src = bigImage.url;
   const arrayComments = bigImage.comments.slice(0, quantity);
   const bigImageFragment = document.createDocumentFragment();
-
-
   arrayComments.forEach((comment) => {
 
     const element = document.createElement('li');
@@ -44,20 +39,13 @@ export const renderBigPicture = (bigImage) => {
   });
   bigPicturecomment.appendChild(bigImageFragment);
 };
-/*window.addEventListener('keydown', (evt) => {
-  if (evt.code === ESCAPE_BUTTON) {
-    evt.preventDefault();
-    modalView.classList.remove('modal-open');
-    bigPicture.classList.add('hidden');
-  }
-});*/
-export const showMoreComments = () => {
+const showMoreComments = () => {
   quantity+=5;
   if (quantity> comments.textContent){
     quantity=comments.textContent;
     comentsbutton.classList.add('hidden');
   }
-  //renderBigPicture(similarImages[pictureIndex]);
+  renderBigPicture(similarImages[5]);// как сюда передать значение?
   socialComentsView.textContent = `${quantity}`;
 };
 const closeBigPicture = () => {
@@ -76,9 +64,11 @@ const escCloseBigPicture = (evt) => {
   window.removeEventListener('keydown',escCloseBigPicture);
 };
 export const showBigPicture = () => {
+
   bigPicture.classList.remove('hidden');
   modalView.classList.add('modal-open');
   comentsbutton.addEventListener('click', showMoreComments);
   closeButton.addEventListener('click', closeBigPicture);
   window.addEventListener('keydown',escCloseBigPicture);
 };
+
