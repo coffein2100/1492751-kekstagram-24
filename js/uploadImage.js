@@ -111,6 +111,7 @@ const openUploadForm = () => {
   formImage.addEventListener('change', onFilterChange);
   comment.addEventListener('input', cheсkComment);
   hashtags.addEventListener('input', cheсkHashtags);
+  closeButton.removeEventListener('click', onCloseClick);
 };
 const formChange = () => {
   imgLoad.classList.remove('hidden');

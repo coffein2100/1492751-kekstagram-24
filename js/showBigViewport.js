@@ -1,4 +1,5 @@
 import {similarImages} from './data.js';
+import {currentChosenIndex} from './createImage.js';
 const ESCAPE_BUTTON = 'Escape';
 export const bigPicture = document.querySelector('.big-picture');
 const description =  bigPicture.querySelector('.social__caption');
@@ -45,7 +46,7 @@ const showMoreComments = () => {
     quantity=comments.textContent;
     comentsbutton.classList.add('hidden');
   }
-  renderBigPicture(similarImages[5]);// как сюда передать значение?
+  renderBigPicture(similarImages[currentChosenIndex]);// как сюда передать значение?
   socialComentsView.textContent = `${quantity}`;
 };
 const closeBigPicture = () => {
@@ -60,8 +61,9 @@ const closeBigPicture = () => {
 const escCloseBigPicture = (evt) => {
   if (evt.code === ESCAPE_BUTTON) {
     closeBigPicture();
+    window.removeEventListener('keydown',escCloseBigPicture);
+    closeButton.removeEventListener('click', closeBigPicture);
   }
-  window.removeEventListener('keydown',escCloseBigPicture);
 };
 export const showBigPicture = () => {
 
