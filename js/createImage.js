@@ -1,11 +1,13 @@
 
 import {similarImages} from './data.js';
-import './showBigViewport.js';
+import {showBigPicture, renderBigPicture} from './showBigViewport.js';
+
 const randomPicture = document.querySelector('.pictures');
 const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
+export let currentChosenIndex;
 
 function showImages (images) {
   const similarImageFragment = document.createDocumentFragment();
@@ -20,4 +22,16 @@ function showImages (images) {
   randomPicture.appendChild(similarImageFragment);
 }
 showImages(similarImages);
-
+export const updatePictureData = () => {
+  document.querySelector('.pictures').addEventListener('click', (evt) => {
+    const pictureElement = evt.target.closest('.picture');
+    let index = pictureElement.querySelector('img').getAttribute('src').slice(7, 9);
+    if (index.endsWith('.')){
+      index=index.replace('.','');
+    }
+    currentChosenIndex = index-1;
+    showBigPicture();
+    renderBigPicture(similarImages[currentChosenIndex]);
+  });
+};
+updatePictureData(similarImages);

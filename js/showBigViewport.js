@@ -1,29 +1,27 @@
 import {similarImages} from './data.js';
+import {currentChosenIndex} from './createImage.js';
+const ESCAPE_BUTTON = 'Escape';
 export const bigPicture = document.querySelector('.big-picture');
-const hidenComents = document.querySelector('.social__comment-count');
-const hidenComentsbutton = document.querySelector('.comments-loader');
+const description =  bigPicture.querySelector('.social__caption');
+const comments = bigPicture.querySelector('.comments-count');
+const likes = bigPicture.querySelector('.likes-count');
+const largeImage = bigPicture.querySelector('img');
+const socialComentsView = document.querySelector('.comments-countview');
+let quantity=5;
+const comentsbutton = document.querySelector('.comments-loader');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
+const bigPicturecomment= document.querySelector('.social__comments');
 
-hidenComents.classList.add('hidden');
-hidenComentsbutton.classList.add('hidden');
-
-closeButton.addEventListener('click',  (evt) => {
-  evt.preventDefault();
-  modalView.classList.remove('modal-open');
-  bigPicture.classList.add('hidden');
-});
-
-const renderBigPicture = (bigImage) => {
-  const bigPicturecomment= document.querySelector('.social__comments');
+export const renderBigPicture = (bigImage) => {
   bigPicturecomment.innerHTML = '';
-  bigPicture.querySelector('.social__caption').textContent = bigImage.description;
-  bigPicture.querySelector('.comments-count').textContent = bigImage.comments.length;
-  bigPicture.querySelector('.likes-count').textContent = bigImage.likes;
-  bigPicture.querySelector('img').src = bigImage.url;
+  description.textContent = bigImage.description;
+  comments.textContent = bigImage.comments.length;
+  likes.textContent = bigImage.likes;
+  largeImage.src = bigImage.url;
+  const arrayComments = bigImage.comments.slice(0, quantity);
   const bigImageFragment = document.createDocumentFragment();
-
-  bigImage.comments.forEach((comment) => {
+  arrayComments.forEach((comment) => {
 
     const element = document.createElement('li');
     const image = document.createElement('img');
@@ -42,13 +40,37 @@ const renderBigPicture = (bigImage) => {
   });
   bigPicturecomment.appendChild(bigImageFragment);
 };
-
-renderBigPicture(similarImages[0]);
-
-window.addEventListener('keydown', (evt) => {
-  if (evt.keyCode === 27) {
-    evt.preventDefault();
-    modalView.classList.remove('modal-open');
-    bigPicture.classList.add('hidden');
+const showMoreComments = () => {
+  quantity+=5;
+  if (quantity> comments.textContent){
+    quantity=comments.textContent;
+    comentsbutton.classList.add('hidden');
   }
-});
+  renderBigPicture(similarImages[currentChosenIndex]);// как сюда передать значение?
+  socialComentsView.textContent = `${quantity}`;
+};
+const closeBigPicture = () => {
+  modalView.classList.remove('modal-open');
+  bigPicture.classList.add('hidden');
+  quantity=5;
+  socialComentsView.textContent = `${quantity}`;
+  comentsbutton.classList.remove('hidden');
+  comentsbutton.removeEventListener('click', showMoreComments);
+  closeButton.removeEventListener('click', closeBigPicture);
+};
+const escCloseBigPicture = (evt) => {
+  if (evt.code === ESCAPE_BUTTON) {
+    closeBigPicture();
+    window.removeEventListener('keydown',escCloseBigPicture);
+    closeButton.removeEventListener('click', closeBigPicture);
+  }
+};
+export const showBigPicture = () => {
+
+  bigPicture.classList.remove('hidden');
+  modalView.classList.add('modal-open');
+  comentsbutton.addEventListener('click', showMoreComments);
+  closeButton.addEventListener('click', closeBigPicture);
+  window.addEventListener('keydown',escCloseBigPicture);
+};
+
