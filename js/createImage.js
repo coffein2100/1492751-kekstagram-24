@@ -24,14 +24,16 @@ function showImages (images) {
 showImages(similarImages);
 export const updatePictureData = () => {
   document.querySelector('.pictures').addEventListener('click', (evt) => {
-    const pictureElement = evt.target.closest('.picture');
-    let index = pictureElement.querySelector('img').getAttribute('src').slice(7, 9);
-    if (index.endsWith('.')){
-      index=index.replace('.','');
+    if (evt.target.closest('.picture')){
+      const pictureElement = evt.target.closest('.picture');
+      let index = pictureElement.querySelector('img').getAttribute('src').slice(7, 9);
+      if (index.endsWith('.')){
+        index=index.replace('.','');
+      }
+      currentChosenIndex = index-1;
+      showBigPicture();
+      renderBigPicture(similarImages[currentChosenIndex]);
     }
-    currentChosenIndex = index-1;
-    showBigPicture();
-    renderBigPicture(similarImages[currentChosenIndex]);
   });
 };
 updatePictureData(similarImages);

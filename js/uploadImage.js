@@ -75,6 +75,7 @@ const increaseSize = () =>{
   if (scaleSize <100)
   {updateSize(25);}
 };
+
 const changeEffect = () => {
   if (sizeImg.className === 'effects__preview--chrome'){
     sizeImg.style.filter = `grayscale(${effectLevel.value})`;
@@ -83,10 +84,10 @@ const changeEffect = () => {
     sizeImg.style.filter = `sepia(${effectLevel.value})`;
   }
   if (sizeImg.className === 'effects__preview--marvin'){
-    sizeImg.style.filter = `invert(${effectLevel.value})`;
+    sizeImg.style.filter = `invert(${`${effectLevel.value}%`})`;
   }
   if (sizeImg.className === 'effects__preview--phobos'){
-    sizeImg.style.filter = `blur(${effectLevel.value})`;
+    sizeImg.style.filter = `blur(${`${effectLevel.value}px`})`;
   }
   if (sizeImg.className === 'effects__preview--heat'){
     sizeImg.style.filter = `brightness(${effectLevel.value})`;
@@ -108,7 +109,6 @@ const onFilterChange = (evt) =>{
   }
   changeEffect();
 };
-effectLevel.value = 100;
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -128,7 +128,6 @@ noUiSlider.create(sliderElement, {
       return parseFloat(value);
     },
   },
-
 });
 
 sliderElement.noUiSlider.on('update', (values, handle) => {
@@ -138,27 +137,61 @@ sliderElement.noUiSlider.on('update', (values, handle) => {
 
 specialElement.addEventListener('change', (evt) => {
   if (evt.target.checked) {
-
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
-  } else {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    });
+    const filterName = evt.target.value;
+    if (filterName === 'chrome' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'sepia' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'marvin' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
+    }
+    if (filterName === 'phobos' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'heat' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
     sliderElement.noUiSlider.set(100);
   }
 });
+
 const clearForm = () => {
   formImage.querySelector('input').value = '';
   sizeImg.style.transform = 'scale(1)';
