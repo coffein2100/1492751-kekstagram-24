@@ -15,7 +15,7 @@ let scaleSize = scaleImage.querySelector('.scale__control--value').value;
 const effectLevel = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.img-upload__slider');
 const specialElement = document.querySelector('.effects__list');
-
+const sliderView = document.querySelector('.img-upload__effect-level');
 const cheсkHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
@@ -100,12 +100,14 @@ const onFilterChange = (evt) =>{
     sizeImg.className = `effects__preview--${filterName}`;
   }
   if (sizeImg.className === 'effects__preview--none'){
+    sliderView.classList.add('hidden');
     sliderElement.classList.add('hidden');
     sizeImg.style.setProperty('filter', 'initial');
     effectLevel.value = '';
   }
   if (sizeImg.className !== 'effects__preview--none'){
     sliderElement.classList.remove('hidden');
+    sliderView.classList.remove('hidden');
   }
   changeEffect();
 };
@@ -134,11 +136,10 @@ sliderElement.noUiSlider.on('update', (values, handle) => {
   effectLevel.value = values[handle];
   changeEffect();
 });
-
-specialElement.addEventListener('change', (evt) => {
+const changeFilter = (evt) => {
   if (evt.target.checked) {
     const filterName = evt.target.value;
-    if (filterName === 'chrome' ){
+    if (filterName === 'chrome' || filterName === 'sepia' ){
       sliderElement.noUiSlider.updateOptions({
         range: {
           min: 0,
@@ -148,7 +149,43 @@ specialElement.addEventListener('change', (evt) => {
         step: 0.1,
       });
     }
-    if (filterName === 'sepia' ){
+    if (filterName === 'marvin' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
+    }
+    if (filterName === 'phobos' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'heat' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    sliderElement.noUiSlider.set(100);
+  }
+};
+/*specialElement.addEventListener('change', (evt) => {
+  if (evt.target.checked) {
+    const filterName = evt.target.value;
+    if (filterName === 'chrome' || filterName === 'sepia' ){
       sliderElement.noUiSlider.updateOptions({
         range: {
           min: 0,
@@ -191,11 +228,12 @@ specialElement.addEventListener('change', (evt) => {
     sliderElement.noUiSlider.set(100);
   }
 });
-
+*/
 const clearForm = () => {
   formImage.querySelector('input').value = '';
   sizeImg.style.transform = 'scale(1)';
   sizeImg.className = 'effects__preview--none';
+  sliderView.classList.add('hidden');
 };
 const closeForm = () => {
   imgLoad.classList.add('hidden');
@@ -204,19 +242,26 @@ const closeForm = () => {
   bigButton.removeEventListener('click', increaseSize);
   comment.removeEventListener('input', cheсkComment);
   hashtags.removeEventListener('input', cheсkHashtags);
-
+  sliderView.classList.add('hidden');
+  specialElement.removeEventListener('change',changeFilter);
 };
 const onCloseClick = () => {
   closeForm();
   clearForm();
+  sliderView.classList.add('hidden');
   closeButton.removeEventListener('click', onCloseClick);
+  specialElement.removeEventListener('change',changeFilter);
+
 };
 const keyDownFormImage = (event) => {
   if (event.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
     event.preventDefault();
     closeForm();
     clearForm();
+    specialElement.removeEventListener('change',changeFilter);
+    sliderView.classList.add('hidden');
     formImage.removeEventListener('keyup', keyDownFormImage);
+
   }
 };
 const openUploadForm = () => {
@@ -228,7 +273,9 @@ const openUploadForm = () => {
   comment.addEventListener('input', cheсkComment);
   hashtags.addEventListener('input', cheсkHashtags);
   closeButton.addEventListener('click', onCloseClick);
+  specialElement.addEventListener('change',changeFilter);
   sliderElement.classList.add('hidden');
+  sliderView.classList.add('hidden');
 };
 const formChange = () => {
   imgLoad.classList.remove('hidden');
