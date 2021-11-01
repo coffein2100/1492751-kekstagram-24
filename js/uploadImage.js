@@ -1,3 +1,4 @@
+import {sendData} from './api.js';
 const MIN_COMMENT_LENGTH = 0;
 const ESCAPE_BUTTON = 'Escape';
 const MAX_COMMENT_LENGTH = 140;
@@ -182,58 +183,15 @@ const changeFilter = (evt) => {
     sliderElement.noUiSlider.set(100);
   }
 };
-/*specialElement.addEventListener('change', (evt) => {
-  if (evt.target.checked) {
-    const filterName = evt.target.value;
-    if (filterName === 'chrome' || filterName === 'sepia' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 1,
-        },
-        start: 1,
-        step: 0.1,
-      });
-    }
-    if (filterName === 'marvin' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 100,
-        },
-        start: 100,
-        step: 1,
-      });
-    }
-    if (filterName === 'phobos' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 3,
-        },
-        start: 3,
-        step: 0.1,
-      });
-    }
-    if (filterName === 'heat' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 1,
-          max: 3,
-        },
-        start: 3,
-        step: 0.1,
-      });
-    }
-    sliderElement.noUiSlider.set(100);
-  }
-});
-*/
+
 const clearForm = () => {
   formImage.querySelector('input').value = '';
   sizeImg.style.transform = 'scale(1)';
   sizeImg.className = 'effects__preview--none';
   sliderView.classList.add('hidden');
+  comment.value = '';
+  hashtags.value = '';
+  formImage.reset();
 };
 const closeForm = () => {
   imgLoad.classList.add('hidden');
@@ -264,6 +222,17 @@ const keyDownFormImage = (event) => {
 
   }
 };
+const setUserFormSubmit = (onSuccess) => {
+  formImage.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      new FormData(evt.target),
+    );
+  });
+};
 const openUploadForm = () => {
   closeButton.addEventListener('click', onCloseClick);
   formImage.addEventListener('keyup', keyDownFormImage);
@@ -276,6 +245,7 @@ const openUploadForm = () => {
   specialElement.addEventListener('change',changeFilter);
   sliderElement.classList.add('hidden');
   sliderView.classList.add('hidden');
+  setUserFormSubmit(onCloseClick);
 };
 const formChange = () => {
   imgLoad.classList.remove('hidden');
