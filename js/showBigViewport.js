@@ -46,7 +46,7 @@ const showMoreComments = () => {
     quantity=comments.textContent;
     comentsbutton.classList.add('hidden');
   }
-  renderBigPicture(similarImages[currentChosenIndex]);// как сюда передать значение?
+  renderBigPicture(similarImages[currentChosenIndex]);
   socialComentsView.textContent = `${quantity}`;
 };
 const closeBigPicture = () => {

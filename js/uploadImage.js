@@ -12,6 +12,10 @@ const hashtags = document.querySelector('.text__hashtags');
 const littleButton = scaleImage.querySelector('.scale__control--smaller');
 const bigButton =  scaleImage.querySelector('.scale__control--bigger');
 let scaleSize = scaleImage.querySelector('.scale__control--value').value;
+const effectLevel = document.querySelector('.effect-level__value');
+const sliderElement = document.querySelector('.img-upload__slider');
+const specialElement = document.querySelector('.effects__list');
+const sliderView = document.querySelector('.img-upload__effect-level');
 const cheсkHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
@@ -71,16 +75,165 @@ const increaseSize = () =>{
   if (scaleSize <100)
   {updateSize(25);}
 };
+
+const changeEffect = () => {
+  if (sizeImg.className === 'effects__preview--chrome'){
+    sizeImg.style.filter = `grayscale(${effectLevel.value})`;
+  }
+  if (sizeImg.className === 'effects__preview--sepia'){
+    sizeImg.style.filter = `sepia(${effectLevel.value})`;
+  }
+  if (sizeImg.className === 'effects__preview--marvin'){
+    sizeImg.style.filter = `invert(${`${effectLevel.value}%`})`;
+  }
+  if (sizeImg.className === 'effects__preview--phobos'){
+    sizeImg.style.filter = `blur(${`${effectLevel.value}px`})`;
+  }
+  if (sizeImg.className === 'effects__preview--heat'){
+    sizeImg.style.filter = `brightness(${effectLevel.value})`;
+  }
+};
+
 const onFilterChange = (evt) =>{
   if (evt.target.matches('input[type="radio"]')) {
     const filterName = evt.target.value;
-    sizeImg.className = `effects__preview--${  filterName}`;
+    sizeImg.className = `effects__preview--${filterName}`;
+  }
+  if (sizeImg.className === 'effects__preview--none'){
+    sliderView.classList.add('hidden');
+    sliderElement.classList.add('hidden');
+    sizeImg.style.setProperty('filter', 'initial');
+    effectLevel.value = '';
+  }
+  if (sizeImg.className !== 'effects__preview--none'){
+    sliderElement.classList.remove('hidden');
+    sliderView.classList.remove('hidden');
+  }
+  changeEffect();
+};
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 100,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', (values, handle) => {
+  effectLevel.value = values[handle];
+  changeEffect();
+});
+const changeFilter = (evt) => {
+  if (evt.target.checked) {
+    const filterName = evt.target.value;
+    if (filterName === 'chrome' || filterName === 'sepia' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'marvin' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
+    }
+    if (filterName === 'phobos' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'heat' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    sliderElement.noUiSlider.set(100);
   }
 };
+/*specialElement.addEventListener('change', (evt) => {
+  if (evt.target.checked) {
+    const filterName = evt.target.value;
+    if (filterName === 'chrome' || filterName === 'sepia' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'marvin' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
+    }
+    if (filterName === 'phobos' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    if (filterName === 'heat' ){
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
+    sliderElement.noUiSlider.set(100);
+  }
+});
+*/
 const clearForm = () => {
   formImage.querySelector('input').value = '';
   sizeImg.style.transform = 'scale(1)';
   sizeImg.className = 'effects__preview--none';
+  sliderView.classList.add('hidden');
 };
 const closeForm = () => {
   imgLoad.classList.add('hidden');
@@ -89,18 +242,26 @@ const closeForm = () => {
   bigButton.removeEventListener('click', increaseSize);
   comment.removeEventListener('input', cheсkComment);
   hashtags.removeEventListener('input', cheсkHashtags);
+  sliderView.classList.add('hidden');
+  specialElement.removeEventListener('change',changeFilter);
 };
 const onCloseClick = () => {
   closeForm();
   clearForm();
+  sliderView.classList.add('hidden');
   closeButton.removeEventListener('click', onCloseClick);
+  specialElement.removeEventListener('change',changeFilter);
+
 };
 const keyDownFormImage = (event) => {
   if (event.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
     event.preventDefault();
     closeForm();
     clearForm();
+    specialElement.removeEventListener('change',changeFilter);
+    sliderView.classList.add('hidden');
     formImage.removeEventListener('keyup', keyDownFormImage);
+
   }
 };
 const openUploadForm = () => {
@@ -111,7 +272,10 @@ const openUploadForm = () => {
   formImage.addEventListener('change', onFilterChange);
   comment.addEventListener('input', cheсkComment);
   hashtags.addEventListener('input', cheсkHashtags);
-  closeButton.removeEventListener('click', onCloseClick);
+  closeButton.addEventListener('click', onCloseClick);
+  specialElement.addEventListener('change',changeFilter);
+  sliderElement.classList.add('hidden');
+  sliderView.classList.add('hidden');
 };
 const formChange = () => {
   imgLoad.classList.remove('hidden');
