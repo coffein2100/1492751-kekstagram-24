@@ -1,5 +1,5 @@
-import {similarImages} from './data.js';
-import {currentChosenIndex} from './createImage.js';
+//import {similarImages} from './data.js';
+import {currentChosenIndex,updatePicture} from './createImage.js';
 const ESCAPE_BUTTON = 'Escape';
 export const bigPicture = document.querySelector('.big-picture');
 const description =  bigPicture.querySelector('.social__caption');
@@ -46,7 +46,7 @@ const showMoreComments = () => {
     quantity=comments.textContent;
     comentsbutton.classList.add('hidden');
   }
-  renderBigPicture(similarImages[currentChosenIndex]);
+  renderBigPicture(updatePicture[currentChosenIndex]);
   socialComentsView.textContent = `${quantity}`;
 };
 const closeBigPicture = () => {

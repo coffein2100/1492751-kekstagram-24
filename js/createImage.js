@@ -1,5 +1,5 @@
 
-import {similarImages} from './data.js';
+//import {similarImages} from './data.js';
 import {showBigPicture, renderBigPicture} from './showBigViewport.js';
 
 const randomPicture = document.querySelector('.pictures');
@@ -8,8 +8,11 @@ const similarImageTemplate = document.querySelector('#picture')
   .querySelector('.picture');
 
 export let currentChosenIndex;
-
-function showImages (images) {
+let currectPictureData;
+export const updatePicture = (data) => {
+  currectPictureData = data;
+};
+const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
 
   images.forEach((image) => {
@@ -20,8 +23,8 @@ function showImages (images) {
     similarImageFragment.appendChild(imageElement);
   });
   randomPicture.appendChild(similarImageFragment);
-}
-showImages(similarImages);
+};
+
 export const updatePictureData = () => {
   document.querySelector('.pictures').addEventListener('click', (evt) => {
     if (!evt.target.closest('.picture')){
@@ -31,8 +34,9 @@ export const updatePictureData = () => {
     const index = photos.indexOf(evt.target.closest('.picture'));
     currentChosenIndex = index;
     showBigPicture();
-    renderBigPicture(similarImages[currentChosenIndex]);
+    renderBigPicture(currectPictureData[currentChosenIndex]);
 
   });
 };
-updatePictureData(similarImages);
+//updatePictureData(similarImages);
+export {showImages};
