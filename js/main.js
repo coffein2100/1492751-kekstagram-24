@@ -4,8 +4,8 @@ import './uploadImage.js';
 import {getData} from './api.js';
 
 
-getData((picture) => {
-  showImages(picture);
-  updatePictureData(picture);
+getData((pictures) => {
+  showImages(pictures);
+  updatePictureData(pictures);
 });
 

@@ -1,5 +1,3 @@
-//import {similarImages} from './data.js';
-import {getData} from './api.js';
 import {currentChosenIndex,currectPictureData} from './createImage.js';
 const ESCAPE_BUTTON = 'Escape';
 export const bigPicture = document.querySelector('.big-picture');
@@ -8,7 +6,7 @@ const comments = bigPicture.querySelector('.comments-count');
 const likes = bigPicture.querySelector('.likes-count');
 const largeImage = bigPicture.querySelector('img');
 const socialComentsView = document.querySelector('.comments-countview');
-let quantity=5;
+let quantity=socialComentsView.textContent;
 const comentsbutton = document.querySelector('.comments-loader');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -22,6 +20,11 @@ export const renderBigPicture = (bigImage) => {
   largeImage.src = bigImage.url;
   const arrayComments = bigImage.comments.slice(0, quantity);
   const bigImageFragment = document.createDocumentFragment();
+  if (quantity>comments.textContent){
+    quantity=comments.textContent;
+    socialComentsView.textContent = `${quantity}`;
+    comentsbutton.classList.add('hidden');
+  }
   arrayComments.forEach((comment) => {
 
     const element = document.createElement('li');

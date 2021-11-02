@@ -17,6 +17,55 @@ const effectLevel = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.img-upload__slider');
 const specialElement = document.querySelector('.effects__list');
 const sliderView = document.querySelector('.img-upload__effect-level');
+const messageSuccessTask = document.querySelector('#success').content;
+const messageErrorTask = document.querySelector('#error').content;
+
+const createMessageError = () => {
+  document.body.appendChild(messageErrorTask);
+  const messageWindowError = document.querySelector('.error');
+  messageWindowError.classList.add('hidden');
+  const erorrButton = document.querySelector('.error__button');
+  const closeMessageErorr = () =>{
+    const messageWindow = document.querySelector('.error');
+    messageWindow.classList.add('hidden');
+  };
+  const keyDownSuccesMessage = (event) => {
+    const messageWindow = document.querySelector('.error');
+    if (event.key === ESCAPE_BUTTON || event.target.closest('.error')) {
+      messageWindow.classList.add('hidden');
+    }
+  };
+  window.addEventListener('keyup', keyDownSuccesMessage);
+  window.addEventListener('click', keyDownSuccesMessage);
+  erorrButton.addEventListener('click',closeMessageErorr);
+};
+createMessageError();
+
+const createMessageSucces = () => {
+  document.body.appendChild(messageSuccessTask);
+  const messageWindowSucces = document.querySelector('.success');
+  messageWindowSucces.classList.add('hidden');
+  const succesButton = document.querySelector('.success__button');
+  const closeMessageSucces = () =>{
+    const messageWindow = document.querySelector('.success');
+    messageWindow.classList.add('hidden');
+  };
+  const keyDownSuccesMessage = (event) => {
+    const messageWindow = document.querySelector('.success');
+    if (event.key === ESCAPE_BUTTON || event.target.closest('.success')) {
+      messageWindow.classList.add('hidden');
+    }
+  };
+  window.addEventListener('keyup', keyDownSuccesMessage);
+  window.addEventListener('click', keyDownSuccesMessage);
+  succesButton.addEventListener('click',closeMessageSucces);
+};
+createMessageSucces();
+const showMessageSucces = () => {
+  const messageWindowSucces = document.querySelector('.success');
+  messageWindowSucces.classList.remove('hidden');
+};
+
 const cheсkHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
@@ -227,8 +276,8 @@ const setUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     sendData(
-      () => onSuccess(),
-      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      () => onSuccess(showMessageSucces()),
+      () => createMessageError(),
       new FormData(evt.target),
     );
   });
@@ -243,6 +292,7 @@ const openUploadForm = () => {
   hashtags.addEventListener('input', cheсkHashtags);
   closeButton.addEventListener('click', onCloseClick);
   specialElement.addEventListener('change',changeFilter);
+  //succesButton.addEventListener('click',closeMessageSucces);
   sliderElement.classList.add('hidden');
   sliderView.classList.add('hidden');
   setUserFormSubmit(onCloseClick);
