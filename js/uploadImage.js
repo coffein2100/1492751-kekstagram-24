@@ -29,9 +29,9 @@ const createMessageError = () => {
     const messageWindow = document.querySelector('.error');
     messageWindow.classList.add('hidden');
   };
-  const keyDownSuccesMessage = (event) => {
+  const keyDownSuccesMessage = (evt) => {
     const messageWindow = document.querySelector('.error');
-    if (event.key === ESCAPE_BUTTON || event.target.closest('.error')) {
+    if (evt.key === ESCAPE_BUTTON || evt.target.closest('.error')) {
       messageWindow.classList.add('hidden');
     }
   };
@@ -50,9 +50,9 @@ const createMessageSucces = () => {
     const messageWindow = document.querySelector('.success');
     messageWindow.classList.add('hidden');
   };
-  const keyDownSuccesMessage = (event) => {
+  const keyDownSuccesMessage = (evt) => {
     const messageWindow = document.querySelector('.success');
-    if (event.key === ESCAPE_BUTTON || event.target.closest('.success')) {
+    if (evt.key === ESCAPE_BUTTON || evt.target.closest('.success')) {
       messageWindow.classList.add('hidden');
     }
   };
@@ -251,6 +251,7 @@ const closeForm = () => {
   hashtags.removeEventListener('input', cheсkHashtags);
   sliderView.classList.add('hidden');
   specialElement.removeEventListener('change',changeFilter);
+
 };
 const onCloseClick = () => {
   closeForm();
@@ -258,23 +259,20 @@ const onCloseClick = () => {
   sliderView.classList.add('hidden');
   closeButton.removeEventListener('click', onCloseClick);
   specialElement.removeEventListener('change',changeFilter);
-
 };
-const keyDownFormImage = (event) => {
-  if (event.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
-    event.preventDefault();
+const keyDownFormImage = (evt) => {
+  if (evt.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
+    evt.preventDefault();
     closeForm();
     clearForm();
     specialElement.removeEventListener('change',changeFilter);
     sliderView.classList.add('hidden');
     formImage.removeEventListener('keyup', keyDownFormImage);
-
   }
 };
 const setUserFormSubmit = (onSuccess) => {
   formImage.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
     sendData(
       () => onSuccess(showMessageSucces()),
       () => createMessageError(),
@@ -282,6 +280,7 @@ const setUserFormSubmit = (onSuccess) => {
     );
   });
 };
+
 const openUploadForm = () => {
   closeButton.addEventListener('click', onCloseClick);
   formImage.addEventListener('keyup', keyDownFormImage);
@@ -292,10 +291,9 @@ const openUploadForm = () => {
   hashtags.addEventListener('input', cheсkHashtags);
   closeButton.addEventListener('click', onCloseClick);
   specialElement.addEventListener('change',changeFilter);
-  //succesButton.addEventListener('click',closeMessageSucces);
   sliderElement.classList.add('hidden');
   sliderView.classList.add('hidden');
-  setUserFormSubmit(onCloseClick);
+
 };
 const formChange = () => {
   imgLoad.classList.remove('hidden');
@@ -303,3 +301,4 @@ const formChange = () => {
   openUploadForm();
 };
 formImage.addEventListener('change', formChange);
+formImage.addEventListener('submit', setUserFormSubmit(onCloseClick));

@@ -6,7 +6,7 @@ const comments = bigPicture.querySelector('.comments-count');
 const likes = bigPicture.querySelector('.likes-count');
 const largeImage = bigPicture.querySelector('img');
 const socialComentsView = document.querySelector('.comments-countview');
-let quantity=socialComentsView.textContent;
+let quantity=5;
 const comentsbutton = document.querySelector('.comments-loader');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -20,7 +20,7 @@ export const renderBigPicture = (bigImage) => {
   largeImage.src = bigImage.url;
   const arrayComments = bigImage.comments.slice(0, quantity);
   const bigImageFragment = document.createDocumentFragment();
-  if (quantity>comments.textContent){
+  if (quantity>=comments.textContent){
     quantity=comments.textContent;
     socialComentsView.textContent = `${quantity}`;
     comentsbutton.classList.add('hidden');
