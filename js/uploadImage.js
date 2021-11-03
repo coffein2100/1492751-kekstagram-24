@@ -1,3 +1,4 @@
+import {sendData} from './api.js';
 const MIN_COMMENT_LENGTH = 0;
 const ESCAPE_BUTTON = 'Escape';
 const MAX_COMMENT_LENGTH = 140;
@@ -16,6 +17,55 @@ const effectLevel = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.img-upload__slider');
 const specialElement = document.querySelector('.effects__list');
 const sliderView = document.querySelector('.img-upload__effect-level');
+const messageSuccessTask = document.querySelector('#success').content;
+const messageErrorTask = document.querySelector('#error').content;
+
+const createMessageError = () => {
+  document.body.appendChild(messageErrorTask);
+  const messageWindowError = document.querySelector('.error');
+  messageWindowError.classList.add('hidden');
+  const erorrButton = document.querySelector('.error__button');
+  const closeMessageErorr = () =>{
+    const messageWindow = document.querySelector('.error');
+    messageWindow.classList.add('hidden');
+  };
+  const keyDownSuccesMessage = (evt) => {
+    const messageWindow = document.querySelector('.error');
+    if (evt.key === ESCAPE_BUTTON || evt.target.closest('.error')) {
+      messageWindow.classList.add('hidden');
+    }
+  };
+  window.addEventListener('keyup', keyDownSuccesMessage);
+  window.addEventListener('click', keyDownSuccesMessage);
+  erorrButton.addEventListener('click',closeMessageErorr);
+};
+createMessageError();
+
+const createMessageSucces = () => {
+  document.body.appendChild(messageSuccessTask);
+  const messageWindowSucces = document.querySelector('.success');
+  messageWindowSucces.classList.add('hidden');
+  const succesButton = document.querySelector('.success__button');
+  const closeMessageSucces = () =>{
+    const messageWindow = document.querySelector('.success');
+    messageWindow.classList.add('hidden');
+  };
+  const keyDownSuccesMessage = (evt) => {
+    const messageWindow = document.querySelector('.success');
+    if (evt.key === ESCAPE_BUTTON || evt.target.closest('.success')) {
+      messageWindow.classList.add('hidden');
+    }
+  };
+  window.addEventListener('keyup', keyDownSuccesMessage);
+  window.addEventListener('click', keyDownSuccesMessage);
+  succesButton.addEventListener('click',closeMessageSucces);
+};
+createMessageSucces();
+const showMessageSucces = () => {
+  const messageWindowSucces = document.querySelector('.success');
+  messageWindowSucces.classList.remove('hidden');
+};
+
 const cheсkHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
@@ -182,58 +232,15 @@ const changeFilter = (evt) => {
     sliderElement.noUiSlider.set(100);
   }
 };
-/*specialElement.addEventListener('change', (evt) => {
-  if (evt.target.checked) {
-    const filterName = evt.target.value;
-    if (filterName === 'chrome' || filterName === 'sepia' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 1,
-        },
-        start: 1,
-        step: 0.1,
-      });
-    }
-    if (filterName === 'marvin' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 100,
-        },
-        start: 100,
-        step: 1,
-      });
-    }
-    if (filterName === 'phobos' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 3,
-        },
-        start: 3,
-        step: 0.1,
-      });
-    }
-    if (filterName === 'heat' ){
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 1,
-          max: 3,
-        },
-        start: 3,
-        step: 0.1,
-      });
-    }
-    sliderElement.noUiSlider.set(100);
-  }
-});
-*/
+
 const clearForm = () => {
   formImage.querySelector('input').value = '';
   sizeImg.style.transform = 'scale(1)';
   sizeImg.className = 'effects__preview--none';
   sliderView.classList.add('hidden');
+  comment.value = '';
+  hashtags.value = '';
+  formImage.reset();
 };
 const closeForm = () => {
   imgLoad.classList.add('hidden');
@@ -244,6 +251,7 @@ const closeForm = () => {
   hashtags.removeEventListener('input', cheсkHashtags);
   sliderView.classList.add('hidden');
   specialElement.removeEventListener('change',changeFilter);
+
 };
 const onCloseClick = () => {
   closeForm();
@@ -251,19 +259,28 @@ const onCloseClick = () => {
   sliderView.classList.add('hidden');
   closeButton.removeEventListener('click', onCloseClick);
   specialElement.removeEventListener('change',changeFilter);
-
 };
-const keyDownFormImage = (event) => {
-  if (event.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
-    event.preventDefault();
+const keyDownFormImage = (evt) => {
+  if (evt.key === ESCAPE_BUTTON && document.activeElement !== comment && document.activeElement !== hashtags) {
+    evt.preventDefault();
     closeForm();
     clearForm();
     specialElement.removeEventListener('change',changeFilter);
     sliderView.classList.add('hidden');
     formImage.removeEventListener('keyup', keyDownFormImage);
-
   }
 };
+const setUserFormSubmit = (onSuccess) => {
+  formImage.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => onSuccess(showMessageSucces()),
+      () => createMessageError(),
+      new FormData(evt.target),
+    );
+  });
+};
+
 const openUploadForm = () => {
   closeButton.addEventListener('click', onCloseClick);
   formImage.addEventListener('keyup', keyDownFormImage);
@@ -276,6 +293,7 @@ const openUploadForm = () => {
   specialElement.addEventListener('change',changeFilter);
   sliderElement.classList.add('hidden');
   sliderView.classList.add('hidden');
+
 };
 const formChange = () => {
   imgLoad.classList.remove('hidden');
@@ -283,3 +301,4 @@ const formChange = () => {
   openUploadForm();
 };
 formImage.addEventListener('change', formChange);
+formImage.addEventListener('submit', setUserFormSubmit(onCloseClick));

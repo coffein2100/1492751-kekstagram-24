@@ -1,15 +1,13 @@
-
-import {similarImages} from './data.js';
 import {showBigPicture, renderBigPicture} from './showBigViewport.js';
-
 const randomPicture = document.querySelector('.pictures');
 const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 export let currentChosenIndex;
+export let currectPictureData;
 
-function showImages (images) {
+const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
 
   images.forEach((image) => {
@@ -20,9 +18,10 @@ function showImages (images) {
     similarImageFragment.appendChild(imageElement);
   });
   randomPicture.appendChild(similarImageFragment);
-}
-showImages(similarImages);
-export const updatePictureData = () => {
+};
+
+/*export const updatePictureData = (data) => {
+  currectPictureData = data;
   document.querySelector('.pictures').addEventListener('click', (evt) => {
     if (!evt.target.closest('.picture')){
       return;
@@ -31,8 +30,23 @@ export const updatePictureData = () => {
     const index = photos.indexOf(evt.target.closest('.picture'));
     currentChosenIndex = index;
     showBigPicture();
-    renderBigPicture(similarImages[currentChosenIndex]);
-
+    renderBigPicture(currectPictureData[currentChosenIndex]);
   });
 };
-updatePictureData(similarImages);
+updatePictureData(getData);
+export {showImages};*/
+export const updatePictureData = (data) => {
+  currectPictureData = data;
+};
+
+document.querySelector('.pictures').addEventListener('click', (evt) => {
+  if (!evt.target.closest('.picture')){
+    return;
+  }
+  const photos = Array.from(document.querySelectorAll('.picture'));
+  const index = photos.indexOf(evt.target.closest('.picture'));
+  currentChosenIndex = index;
+  showBigPicture();
+  renderBigPicture(currectPictureData[currentChosenIndex]);
+});
+export {showImages};
