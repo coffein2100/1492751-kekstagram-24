@@ -1,10 +1,10 @@
-const sortBlock = document.querySelector('.img-filters'); // Блок сортировки
+const sortBlock = document.querySelector('.img-filters');
 
-const sortDefault = sortBlock.querySelector('#filter-default'); // Кнопка сортировки «по умолчанию»
-const sortRandom = sortBlock.querySelector('#filter-random'); // Кнопка сортировки «случайные»
-const sortDiscussed = sortBlock.querySelector('#filter-discussed'); // Кнопка сортировки «обсуждаемые»
+const sortDefault = sortBlock.querySelector('#filter-default');
+const sortRandom = sortBlock.querySelector('#filter-random');
+const sortDiscussed = sortBlock.querySelector('#filter-discussed');
 
-const sortInput = sortBlock.querySelector('#sort-input'); // Скрытый инпут
+const sortInput = sortBlock.querySelector('#sort-input');
 
 // По умолчанию — фотографии в изначальном порядке с сервера.
 const sortDefaultClick = (cb) => {
@@ -18,7 +18,7 @@ const sortDefaultClick = (cb) => {
   });
 };
 
-// Случайные — 10 случайных, не повторяющихся фотографий.
+
 const sortRandomClick = (cb) => {
   sortRandom.addEventListener('click', () => {
     sortDefault.classList.remove('img-filters__button--active');
@@ -30,7 +30,7 @@ const sortRandomClick = (cb) => {
   });
 };
 
-// Обсуждаемые — фотографии, отсортированные в порядке убывания количества комментариев.
+
 const sortDiscussedClick = (cb) => {
   sortDiscussed.addEventListener('click', () => {
     sortDefault.classList.remove('img-filters__button--active');
@@ -42,7 +42,7 @@ const sortDiscussedClick = (cb) => {
   });
 };
 
-// Функция сортировки изображений по id (по умолчанию)
+
 const comparePicturesIds = (pictureA, pictureB) => {
   const rankIdA = pictureA.id;
   const rankIdB = pictureB.id;
@@ -50,7 +50,7 @@ const comparePicturesIds = (pictureA, pictureB) => {
   return rankIdA - rankIdB;
 };
 
-// Функция сортировки изображений по комментариям (обсуждаемые)
+
 const comparePicturesComments = (pictureA, pictureB) => {
   const rankCommentsA = pictureA.comments.length;
   const rankCommentsB = pictureB.comments.length;
