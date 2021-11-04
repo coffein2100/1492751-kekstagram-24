@@ -44,7 +44,6 @@ const sortButtons = (cb) =>{
     sortDefault.classList.add('img-filters__button--active');
     sortRandom.classList.remove('img-filters__button--active');
     sortDiscussed.classList.remove('img-filters__button--active');
-
     sortInput.value = 'default';
     cb();
   });
@@ -53,7 +52,6 @@ const sortButtons = (cb) =>{
     sortDefault.classList.remove('img-filters__button--active');
     sortRandom.classList.add('img-filters__button--active');
     sortDiscussed.classList.remove('img-filters__button--active');
-
     sortInput.value = 'random';
     cb();
   });
@@ -61,7 +59,6 @@ const sortButtons = (cb) =>{
     sortDefault.classList.remove('img-filters__button--active');
     sortRandom.classList.remove('img-filters__button--active');
     sortDiscussed.classList.add('img-filters__button--active');
-
     sortInput.value = 'discussed';
     cb();
   });
@@ -70,14 +67,12 @@ const sortButtons = (cb) =>{
 const comparePicturesIds = (pictureA, pictureB) => {
   const rankIdA = pictureA.id;
   const rankIdB = pictureB.id;
-
   return rankIdA - rankIdB;
 };
 
 const comparePicturesComments = (pictureA, pictureB) => {
   const rankCommentsA = pictureA.comments.length;
   const rankCommentsB = pictureB.comments.length;
-
   return rankCommentsB - rankCommentsA;
 };
 

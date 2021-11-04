@@ -1,5 +1,5 @@
 import {showBigPicture, renderBigPicture} from './showBigViewport.js';
-import {comparePicturesIds, comparePicturesComments, sortInput} from './sortImages.js';
+import {sortInput} from './sortImages.js';
 const randomPicture = document.querySelector('.pictures');
 const imegesFilter = document.querySelector('.img-filters');
 const similarImageTemplate = document.querySelector('#picture')
@@ -13,13 +13,13 @@ const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
   let size = images.length;
   if (sortInput.value === 'default') {
-    images.sort(comparePicturesIds);
+    images.slice().sort();
   }
-  if (sortInput.value === 'random') {
-    images.sort(() => Math.random() - 0.5);
+  else if (sortInput.value === 'random') {
+    images.slice().sort(() => Math.random() - 0.5);
     size = 10;
   } else if (sortInput.value === 'discussed') {
-    images.sort(comparePicturesComments);
+    images.slice().sort((pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length);
   }
 
   images.slice(0,size).forEach(({url, comments, likes}) => {
