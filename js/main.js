@@ -1,7 +1,7 @@
 
 import {showImages,updatePictureData,showImegesFilter} from './createImage.js';
 import './sortImages.js';
-import {sortDefaultClick, sortRandomClick, sortDiscussedClick} from './sortImages.js';
+import {sortButtons} from './sortImages.js';
 import './uploadImage.js';
 import {getData} from './api.js';
 import {debounce} from './utils/debounce.js';
@@ -13,17 +13,7 @@ getData((pictures) => {
   updatePictureData(pictures);
   showImegesFilter();
 
-  sortDefaultClick(debounce(
-    () => showImages(pictures),
-    RERENDER_DELAY,
-  ));
-
-  sortRandomClick(debounce(
-    () => showImages(pictures),
-    RERENDER_DELAY,
-  ));
-
-  sortDiscussedClick(debounce(
+  sortButtons(debounce(
     () => showImages(pictures),
     RERENDER_DELAY,
   ));

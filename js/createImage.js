@@ -12,11 +12,10 @@ export let currectPictureData;
 const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
   let size = images.length;
-  images.slice();
-
   if (sortInput.value === 'default') {
     images.sort(comparePicturesIds);
-  } else if (sortInput.value === 'random') {
+  }
+  if (sortInput.value === 'random') {
     images.sort(() => Math.random() - 0.5);
     size = 10;
   } else if (sortInput.value === 'discussed') {
