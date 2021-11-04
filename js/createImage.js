@@ -1,7 +1,7 @@
 import {showBigPicture, renderBigPicture} from './showBigViewport.js';
+import {comparePicturesIds, comparePicturesComments, sortInput} from './sortImages.js';
 const randomPicture = document.querySelector('.pictures');
 const imegesFilter = document.querySelector('.img-filters');
-const namesFilter = document.querySelectorAll('.img-filters__button');
 const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
@@ -11,13 +11,26 @@ export let currectPictureData;
 
 const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
-  images.forEach((image) => {
+  let size = images.length;
+  images.slice();
+
+  if (sortInput.value === 'default') {
+    images.sort(comparePicturesIds);
+  } else if (sortInput.value === 'random') {
+    images.sort(() => Math.random() - 0.5);
+    size = 10;
+  } else if (sortInput.value === 'discussed') {
+    images.sort(comparePicturesComments);
+  }
+
+  images.slice(0,size).forEach(({url, comments, likes}) => {
     const imageElement = similarImageTemplate.cloneNode(true);
-    imageElement.querySelector('.picture__comments').textContent = image.comments.length;
-    imageElement.querySelector('.picture__likes').textContent = image.likes;
-    imageElement.querySelector('.picture__img').src = image.url;
+    imageElement.querySelector('.picture__comments').textContent = comments.length;
+    imageElement.querySelector('.picture__likes').textContent = likes;
+    imageElement.querySelector('.picture__img').src = url;
     similarImageFragment.appendChild(imageElement);
   });
+  randomPicture.querySelectorAll('.picture').forEach((pic) => pic.remove());
   randomPicture.appendChild(similarImageFragment);
 };
 
@@ -36,27 +49,8 @@ document.querySelector('.pictures').addEventListener('click', (evt) => {
   renderBigPicture(currectPictureData[currentChosenIndex]);
 });
 
-
-const discussed = (a, b) => {
-  {return a.comments.length - b.comments.length;}
-};
-
 const showImegesFilter = () => {
   imegesFilter.classList.remove('img-filters--inactive');
 };
-imegesFilter.addEventListener('click', (evt) => {
-  if (!evt.target.closest('.img-filters')){
-    return;
-  }
-  const filterId = evt.target.closest('.img-filters__button').id;
-  namesFilter.forEach((i) => i.classList.remove('img-filters__button--active'));
-  evt.target.closest('.img-filters__button').classList.add('img-filters__button--active');
-  if (filterId === 'filter-random'){
 
-  }
-  if (filterId === 'filter-discussed'){
-
-  }
-
-});
 export {showImages,showImegesFilter};
