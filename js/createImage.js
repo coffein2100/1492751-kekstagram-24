@@ -12,17 +12,18 @@ export let currectPictureData;
 const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
   let size = images.length;
+  let sortedImages;
   if (sortInput.value === 'default') {
-    images.slice().sort();
+    sortedImages = images;
   }
   else if (sortInput.value === 'random') {
-    images.slice().sort(() => Math.random() - 0.5);
+    sortedImages = images.slice().sort(() => Math.random() - 0.5);
     size = 10;
   } else if (sortInput.value === 'discussed') {
-    images.slice().sort((pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length);
+    sortedImages = images.slice().sort((pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length);
   }
 
-  images.slice(0,size).forEach(({url, comments, likes}) => {
+  sortedImages.slice(0,size).forEach(({url, comments, likes}) => {
     const imageElement = similarImageTemplate.cloneNode(true);
     imageElement.querySelector('.picture__comments').textContent = comments.length;
     imageElement.querySelector('.picture__likes').textContent = likes;

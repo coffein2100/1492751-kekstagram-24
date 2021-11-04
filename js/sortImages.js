@@ -1,69 +1,27 @@
 const sortBlock = document.querySelector('.img-filters');
-const sortDefault = sortBlock.querySelector('#filter-default');
-const sortRandom = sortBlock.querySelector('#filter-random');
-const sortDiscussed = sortBlock.querySelector('#filter-discussed');
-
+const namesFilter = document.querySelectorAll('.img-filters__button');
 const sortInput = sortBlock.querySelector('#sort-input');
 
-// По умолчанию — фотографии в изначальном порядке с сервера.
-/*const sortDefaultClick = (cb) => {
-  sortDefault.addEventListener('click', () => {
-    sortDefault.classList.add('img-filters__button--active');
-    sortRandom.classList.remove('img-filters__button--active');
-    sortDiscussed.classList.remove('img-filters__button--active');
-
-    sortInput.value = 'default';
-    cb();
-  });
-};
-
-const sortRandomClick = (cb) => {
-  sortRandom.addEventListener('click', () => {
-    sortDefault.classList.remove('img-filters__button--active');
-    sortRandom.classList.add('img-filters__button--active');
-    sortDiscussed.classList.remove('img-filters__button--active');
-
-    sortInput.value = 'random';
-    cb();
-  });
-};
-
-const sortDiscussedClick = (cb) => {
-  sortDiscussed.addEventListener('click', () => {
-    sortDefault.classList.remove('img-filters__button--active');
-    sortRandom.classList.remove('img-filters__button--active');
-    sortDiscussed.classList.add('img-filters__button--active');
-
-    sortInput.value = 'discussed';
-    cb();
-  });
-};
-*/
 const sortButtons = (cb) =>{
-  sortDefault.addEventListener('click', () => {
-    sortDefault.classList.add('img-filters__button--active');
-    sortRandom.classList.remove('img-filters__button--active');
-    sortDiscussed.classList.remove('img-filters__button--active');
-    sortInput.value = 'default';
-    cb();
-  });
-
-  sortRandom.addEventListener('click', () => {
-    sortDefault.classList.remove('img-filters__button--active');
-    sortRandom.classList.add('img-filters__button--active');
-    sortDiscussed.classList.remove('img-filters__button--active');
-    sortInput.value = 'random';
-    cb();
-  });
-  sortDiscussed.addEventListener('click', () => {
-    sortDefault.classList.remove('img-filters__button--active');
-    sortRandom.classList.remove('img-filters__button--active');
-    sortDiscussed.classList.add('img-filters__button--active');
-    sortInput.value = 'discussed';
+  sortBlock.addEventListener('click', (evt) => {
+    if (!evt.target.closest('.img-filters__button')){
+      return;
+    }
+    const filterId = evt.target.closest('.img-filters__button').id;
+    namesFilter.forEach((i) => i.classList.remove('img-filters__button--active'));
+    evt.target.closest('.img-filters__button').classList.add('img-filters__button--active');
+    if (filterId === 'filter-random'){
+      sortInput.value = 'random';
+    }
+    if (filterId === 'filter-discussed'){
+      sortInput.value = 'discussed';
+    }
+    if (filterId === 'filter-default'){
+      sortInput.value = 'default';
+    }
     cb();
   });
 };
-
 const comparePicturesIds = (pictureA, pictureB) => {
   const rankIdA = pictureA.id;
   const rankIdB = pictureB.id;
