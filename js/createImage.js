@@ -8,11 +8,14 @@ const similarImageTemplate = document.querySelector('#picture')
 
 export let currentChosenIndex;
 export let currectPictureData;
-
+export const updatePictureData = (data) => {
+  currectPictureData = data;
+};
 const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
   let size = images.length;
   let sortedImages;
+
   if (sortInput.value === 'default') {
     sortedImages = images;
   }
@@ -29,13 +32,11 @@ const showImages = (images) => {
     imageElement.querySelector('.picture__likes').textContent = likes;
     imageElement.querySelector('.picture__img').src = url;
     similarImageFragment.appendChild(imageElement);
+    updatePictureData(sortedImages);
   });
   randomPicture.querySelectorAll('.picture').forEach((pic) => pic.remove());
   randomPicture.appendChild(similarImageFragment);
-};
 
-export const updatePictureData = (data) => {
-  currectPictureData = data;
 };
 
 document.querySelector('.pictures').addEventListener('click', (evt) => {
