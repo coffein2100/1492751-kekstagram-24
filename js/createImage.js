@@ -1,3 +1,4 @@
+import './showBigViewport.js';
 import {showBigPicture} from './showBigViewport.js';
 import {sortInput} from './sortImages.js';
 const randomPicture = document.querySelector('.pictures');
@@ -6,6 +7,8 @@ export const bigPicture = document.querySelector('.big-picture');
 const description =  bigPicture.querySelector('.social__caption');
 const comments = bigPicture.querySelector('.comments-count');
 const likes = bigPicture.querySelector('.likes-count');
+const modalView = document.querySelector('body');
+const closeButton = document.querySelector('.big-picture__cancel');
 const largeImage = bigPicture.querySelector('img');
 const bigPicturecomment= document.querySelector('.social__comments');
 const socialComentsView = document.querySelector('.comments-countview');
@@ -105,5 +108,13 @@ const showImegesFilter = () => {
   imagesFilter.classList.remove('img-filters--inactive');
 };
 
-
+export const closeBigPicture = () => {
+  modalView.classList.remove('modal-open');
+  bigPicture.classList.add('hidden');
+  quantity=5;
+  socialComentsView.textContent = `${quantity}`;
+  comentsbutton.classList.remove('hidden');
+  comentsbutton.removeEventListener('click', showMoreComments);
+  closeButton.removeEventListener('click', closeBigPicture);
+};
 export {showImages,showImegesFilter};

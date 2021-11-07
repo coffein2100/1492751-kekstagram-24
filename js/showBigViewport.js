@@ -1,8 +1,6 @@
-import {showMoreComments} from './createImage.js';
+import {showMoreComments,closeBigPicture} from './createImage.js';
 const ESCAPE_BUTTON = 'Escape';
 export const bigPicture = document.querySelector('.big-picture');
-const socialComentsView = document.querySelector('.comments-countview');
-let quantity=5;
 export const comentsbutton = document.querySelector('.comments-loader');
 const modalView = document.querySelector('body');
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -48,7 +46,7 @@ const showMoreComments = () => {
   }
   renderBigPicture(currentPictureData[currentChosenIndex]);
   socialComentsView.textContent = `${quantity}`;
-};*/
+};
 export const closeBigPicture = () => {
   modalView.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
@@ -57,7 +55,7 @@ export const closeBigPicture = () => {
   comentsbutton.classList.remove('hidden');
   comentsbutton.removeEventListener('click', showMoreComments);
   closeButton.removeEventListener('click', closeBigPicture);
-};
+};*/
 export const escCloseBigPicture = (evt) => {
   if (evt.code === ESCAPE_BUTTON) {
     closeBigPicture();
