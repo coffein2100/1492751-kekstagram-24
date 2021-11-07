@@ -1,15 +1,15 @@
 import {showBigPicture, renderBigPicture} from './showBigViewport.js';
 import {sortInput} from './sortImages.js';
 const randomPicture = document.querySelector('.pictures');
-const imegesFilter = document.querySelector('.img-filters');
+const imagesFilter = document.querySelector('.img-filters');
 const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 export let currentChosenIndex;
-export let currectPictureData;
+export let currentPictureData;
 export const updatePictureData = (data) => {
-  currectPictureData = data;
+  currentPictureData = data;
 };
 const showImages = (images) => {
   const similarImageFragment = document.createDocumentFragment();
@@ -36,7 +36,6 @@ const showImages = (images) => {
   });
   randomPicture.querySelectorAll('.picture').forEach((pic) => pic.remove());
   randomPicture.appendChild(similarImageFragment);
-
 };
 
 document.querySelector('.pictures').addEventListener('click', (evt) => {
@@ -47,11 +46,11 @@ document.querySelector('.pictures').addEventListener('click', (evt) => {
   const index = photos.indexOf(evt.target.closest('.picture'));
   currentChosenIndex = index;
   showBigPicture();
-  renderBigPicture(currectPictureData[currentChosenIndex]);
+  renderBigPicture(currentPictureData[currentChosenIndex]);
 });
 
 const showImegesFilter = () => {
-  imegesFilter.classList.remove('img-filters--inactive');
+  imagesFilter.classList.remove('img-filters--inactive');
 };
 
 export {showImages,showImegesFilter};

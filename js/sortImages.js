@@ -22,16 +22,5 @@ const sortButtons = (cb) =>{
     cb();
   });
 };
-const comparePicturesIds = (pictureA, pictureB) => {
-  const rankIdA = pictureA.id;
-  const rankIdB = pictureB.id;
-  return rankIdA - rankIdB;
-};
 
-const comparePicturesComments = (pictureA, pictureB) => {
-  const rankCommentsA = pictureA.comments.length;
-  const rankCommentsB = pictureB.comments.length;
-  return rankCommentsB - rankCommentsA;
-};
-
-export {sortBlock, sortInput, comparePicturesIds, comparePicturesComments,sortButtons};
+export {sortBlock, sortInput, sortButtons};

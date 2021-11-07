@@ -29,44 +29,44 @@ const createMessageError = () => {
     const messageWindow = document.querySelector('.error');
     messageWindow.classList.add('hidden');
   };
-  const keyDownSuccesMessage = (evt) => {
+  const keyDownSuccessMessage = (evt) => {
     const messageWindow = document.querySelector('.error');
     if (evt.key === ESCAPE_BUTTON || evt.target.closest('.error')) {
       messageWindow.classList.add('hidden');
     }
   };
-  window.addEventListener('keyup', keyDownSuccesMessage);
-  window.addEventListener('click', keyDownSuccesMessage);
+  window.addEventListener('keyup', keyDownSuccessMessage);
+  window.addEventListener('click', keyDownSuccessMessage);
   erorrButton.addEventListener('click',closeMessageErorr);
 };
 createMessageError();
 
 const createMessageSucces = () => {
   document.body.appendChild(messageSuccessTask);
-  const messageWindowSucces = document.querySelector('.success');
-  messageWindowSucces.classList.add('hidden');
-  const succesButton = document.querySelector('.success__button');
-  const closeMessageSucces = () =>{
+  const messageWindowSuccess = document.querySelector('.success');
+  messageWindowSuccess.classList.add('hidden');
+  const successButton = document.querySelector('.success__button');
+  const closeMessageSuccess = () =>{
     const messageWindow = document.querySelector('.success');
     messageWindow.classList.add('hidden');
   };
-  const keyDownSuccesMessage = (evt) => {
+  const keyDownSuccessMessage = (evt) => {
     const messageWindow = document.querySelector('.success');
     if (evt.key === ESCAPE_BUTTON || evt.target.closest('.success')) {
       messageWindow.classList.add('hidden');
     }
   };
-  window.addEventListener('keyup', keyDownSuccesMessage);
-  window.addEventListener('click', keyDownSuccesMessage);
-  succesButton.addEventListener('click',closeMessageSucces);
+  window.addEventListener('keyup', keyDownSuccessMessage);
+  window.addEventListener('click', keyDownSuccessMessage);
+  successButton.addEventListener('click',closeMessageSuccess);
 };
 createMessageSucces();
-const showMessageSucces = () => {
-  const messageWindowSucces = document.querySelector('.success');
-  messageWindowSucces.classList.remove('hidden');
+const showMessageSuccess = () => {
+  const messageWindowSuccess = document.querySelector('.success');
+  messageWindowSuccess.classList.remove('hidden');
 };
 
-const cheсkHashtags = () => {
+const checkHashtags = () => {
   let  arrayHashtag = hashtags.value.toLowerCase();
   const usedHashtag = new Set();
   arrayHashtag=arrayHashtag.split(' ');
@@ -100,7 +100,7 @@ const cheсkHashtags = () => {
   }
   hashtags.reportValidity();
 };
-const cheсkComment = () => {
+const checkComment = () => {
   const commentLength = comment.value.length;
   if (commentLength <MIN_COMMENT_LENGTH) {
     comment.setCustomValidity(`Ещё ${  MIN_COMMENT_LENGTH - commentLength}симв.`);
@@ -247,8 +247,8 @@ const closeForm = () => {
   modalView.classList.remove('modal-open');
   littleButton.removeEventListener('click', reduceSize);
   bigButton.removeEventListener('click', increaseSize);
-  comment.removeEventListener('input', cheсkComment);
-  hashtags.removeEventListener('input', cheсkHashtags);
+  comment.removeEventListener('input', checkComment);
+  hashtags.removeEventListener('input', checkHashtags);
   sliderView.classList.add('hidden');
   specialElement.removeEventListener('change',changeFilter);
 
@@ -274,7 +274,7 @@ const setUserFormSubmit = (onSuccess) => {
   formImage.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(
-      () => onSuccess(showMessageSucces()),
+      () => onSuccess(showMessageSuccess()),
       () => createMessageError(),
       new FormData(evt.target),
     );
@@ -287,8 +287,8 @@ const openUploadForm = () => {
   littleButton.addEventListener('click', reduceSize);
   bigButton.addEventListener('click', increaseSize);
   formImage.addEventListener('change', onFilterChange);
-  comment.addEventListener('input', cheсkComment);
-  hashtags.addEventListener('input', cheсkHashtags);
+  comment.addEventListener('input', checkComment);
+  hashtags.addEventListener('input', checkHashtags);
   closeButton.addEventListener('click', onCloseClick);
   specialElement.addEventListener('change',changeFilter);
   sliderElement.classList.add('hidden');
