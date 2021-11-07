@@ -17,8 +17,8 @@ const similarImageTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-export let currentChosenIndex;
-export let currentPictureData;
+let currentChosenIndex;
+let currentPictureData;
 let quantity=5;
 export const updatePictureData = (data) => {
   currentPictureData = data;
