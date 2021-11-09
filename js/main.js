@@ -5,7 +5,7 @@ import {sortButtons} from './sortImages.js';
 import './uploadImage.js';
 import {getData} from './api.js';
 import {debounce} from './utils/debounce.js';
-
+import './loadUserPicture.js';
 const RERENDER_DELAY = 500;
 
 getData((pictures) => {
